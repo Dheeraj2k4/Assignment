@@ -1,0 +1,40 @@
+.indicator-container {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.bar {
+  width: 20vw;
+  max-width: 120px;
+  min-width: 50px;
+  height: 0.7rem;
+  background-color: #222;
+  border-radius: 0.35rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0.35rem;
+  transition: width 0.3s ease;
+}
+
+.dots {
+  display: flex;
+  gap: 1vw;
+}
+
+.dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  background-color: #555;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: #fff;
+} 
