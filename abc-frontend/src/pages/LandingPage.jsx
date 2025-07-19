@@ -12,7 +12,7 @@ const DEFAULT_CARDS = [
 
 export default function LandingPage() {
   const [heading, setHeading] = useState("Browse All Events");
-  const [cards, setCards] = useState(DEFAULT_CARDS);
+  const [cards, setCards] = useState([]); // Start with empty array
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -28,14 +28,10 @@ export default function LandingPage() {
             ? data.heading
             : "Browse All Events"
         );
-        if (data.cards && data.cards.length === 5) {
-          setCards(data.cards.map((c, i) => ({
-            image: c.image ? `http://localhost:3000${c.image}` : DEFAULT_CARDS[i].image,
-            date: DEFAULT_CARDS[i].date,
-            month: DEFAULT_CARDS[i].month,
-          })));
+        if (Array.isArray(data.cards)) {
+          setCards(data.cards);
         } else {
-          setCards(DEFAULT_CARDS);
+          setCards([]);
         }
         setLoading(false);
       })
@@ -116,9 +112,13 @@ export default function LandingPage() {
         className="relative z-10 mt-[340px] flex flex-nowrap gap-4 pl-40 pb-12 w-full overflow-x-auto custom-scrollbar"
         style={{ scrollbarWidth: "none" }}
       >
-        {cards.slice(0, -1).map((card, idx) => (
-          <div key={card.image || idx} className="flex-shrink-0">
-            <EventCard image={card.image} date={card.date} month={card.month} />
+        {cards.map((card, idx) => (
+          <div key={card._id || idx} className="flex-shrink-0">
+            <EventCard
+              image={card.image ? `http://localhost:3000${card.image}` : undefined}
+              date={DEFAULT_CARDS[idx]?.date}
+              month={DEFAULT_CARDS[idx]?.month}
+            />
           </div>
         ))}
       </div>
