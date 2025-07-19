@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import fs from 'fs';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
@@ -20,7 +19,7 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-// Event schema: heading + 4 cards (each with image)
+// Event schema
 const eventSchema = new mongoose.Schema({
   heading: { type: String, default: "Browse All Events" },
   cards: {
@@ -34,30 +33,32 @@ const eventSchema = new mongoose.Schema({
       { image: "" },
       { image: "" },
       { image: "" },
+      { image: "" },
     ],
-    validate: v => Array.isArray(v) && v.length === 4,
+    validate: v => Array.isArray(v) && v.length === 5,
   },
 });
 const Event = mongoose.model('Event', eventSchema);
 
-// POST /api/events: update heading and/or a specific card
-router.post('/', upload.single('image'), async (req, res) => {
+// POST /api/events
+router.post('/', upload.single('images'), async (req, res) => {
   try {
     let event = await Event.findOne({});
     if (!event) {
       event = new Event();
     }
-    // Update heading if provided
+
     if (req.body.heading) {
       event.heading = req.body.heading;
     }
-    // Update a specific card if index is provided
+
     const idx = parseInt(req.body.index, 10);
-    if (!isNaN(idx) && idx >= 0 && idx < 4) {
+    if (!isNaN(idx) && idx >= 0 && idx < 5) {
       if (req.file) {
         event.cards[idx].image = `/uploads/${req.file.filename}`;
       }
     }
+
     await event.save();
     res.status(201).json({ message: 'Event updated', event });
   } catch (err) {
@@ -65,12 +66,11 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
-// GET /api/events: return heading and 4 cards
+// GET /api/events
 router.get('/', async (req, res) => {
   try {
     let event = await Event.findOne({});
     if (!event) {
-      // Return default if not set
       event = new Event();
       await event.save();
     }
@@ -80,4 +80,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-export default router; 
+export default router;

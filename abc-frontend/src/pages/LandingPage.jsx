@@ -116,7 +116,7 @@ export default function LandingPage() {
         className="relative z-10 mt-[340px] flex flex-nowrap gap-4 pl-40 pb-12 w-full overflow-x-auto custom-scrollbar"
         style={{ scrollbarWidth: "none" }}
       >
-        {cards.map((card, idx) => (
+        {cards.slice(0, -1).map((card, idx) => (
           <div key={card.image || idx} className="flex-shrink-0">
             <EventCard image={card.image} date={card.date} month={card.month} />
           </div>
