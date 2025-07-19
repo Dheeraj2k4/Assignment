@@ -5,9 +5,9 @@ import Indicator from "../components/Indicator";
 const DEFAULT_CARDS = [
   { image: "/94518bbc4f3be0543cbfa9970a3d32221630340e.png", date: "29", month: "JUNE" },
   { image: "/d4b4077e2f7f5f51353724ef58d59296fbc98662.png", date: "05", month: "JULY" },
-  { image: "/94518bbc4f3be0543cbfa9970a3d32221630340e.png", date: "12", month: "AUG" },
-  { image: "/d4b4077e2f7f5f51353724ef58d59296fbc98662.png", date: "20", month: "SEP" },
-  { image: "/94518bbc4f3be0543cbfa9970a3d32221630340e.png", date: "10", month: "OCT" },
+  { image: "/1f0fe3d3051c476ce6f57747b3505ad717bad614.png", date: "12", month: "AUG" },
+  { image: "/ca4a6c45864e49d75d27565ae69f465cc717ae8e.png", date: "20", month: "SEP" },
+  { image: "/d4b4077e2f7f5f51353724ef58d59296fbc98662.png", date: "10", month: "OCT" },
 ];
 
 export default function LandingPage() {
@@ -30,7 +30,7 @@ export default function LandingPage() {
         );
         if (data.cards && data.cards.length === 5) {
           setCards(data.cards.map((c, i) => ({
-            image: c.image || DEFAULT_CARDS[i].image,
+            image: c.image ? `http://localhost:3000${c.image}` : DEFAULT_CARDS[i].image,
             date: DEFAULT_CARDS[i].date,
             month: DEFAULT_CARDS[i].month,
           })));

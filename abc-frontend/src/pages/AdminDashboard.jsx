@@ -4,7 +4,7 @@ export default function AdminDashboard() {
   const [heading, setHeading] = useState("");
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState("");
-  const [cardId, setCardId] = useState(1); // default to 1
+  const [cardId, setCardId] = useState(0); // default to 1
 
   const handleImageChange = (e) => {
     setImages(Array.from(e.target.files));
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
     const formData = new FormData();
     formData.append("heading", heading);
     images.forEach((img) => formData.append("images", img));
-    formData.append("index", cardId - 1); // backend expects 0-based index
+    formData.append("index", cardId - 1); // cardId is 1-based, index is 0-based
     try {
       const res = await fetch("http://localhost:3000/api/events", {
         method: "POST",
@@ -42,8 +42,8 @@ export default function AdminDashboard() {
           <label className="font-semibold">Event Card ID (1-5)</label>
           <input
             type="number"
-            min="1"
-            max="5"
+            min="0"
+            max="4"
             className="p-2 rounded bg-[#23232a] border border-gray-700"
             value={cardId}
             onChange={e => setCardId(Number(e.target.value))}
